@@ -20,7 +20,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
+                android:text="悬浮按键控制器"
                 android:textColor="@color/text_main"
                 android:textSize="26sp"
                 android:textStyle="bold" />
@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="单 App 全包 · 内置 Local ADB 引擎 · 彻底告别第三方软件与无障碍"
+                android:text="模拟外接键盘方向上下键 / 鼠标滚轮 · 点击即触发"
                 android:textColor="@color/text_sub"
                 android:textSize="13sp" />
 
@@ -53,7 +53,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/section_env_title"
+                        android:text="必要授权与连接"
                         android:textColor="@color/text_main"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -75,7 +75,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/item_overlay_title"
+                                android:text="1. 悬浮窗显示权限"
                                 android:textColor="@color/text_main"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
@@ -83,7 +83,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/item_overlay_desc"
+                                android:text="允许在屏幕上显示上/下按键悬浮球"
                                 android:textColor="@color/text_sub"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -106,7 +106,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/item_adb_title"
+                        android:text="2. 连接系统无线调试"
                         android:textColor="@color/text_main"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -115,7 +115,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="@string/item_adb_desc"
+                        android:text="用于发送真正的硬件级按键指令"
                         android:textColor="@color/text_sub"
                         android:textSize="12sp" />
 
@@ -143,7 +143,7 @@
                                 android:id="@+id/et_port"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="输入端口(如 38421)或整串地址"
+                                android:hint="输入无线调试端口 (如 38421)"
                                 android:inputType="text"
                                 android:maxLength="25"
                                 android:paddingVertical="12dp"
@@ -171,7 +171,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 2. 悬浮窗控制卡片 -->
+            <!-- 2. 悬浮窗开关控制 -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -198,7 +198,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/section_control_title"
+                            android:text="悬浮按键开关"
                             android:textColor="@color/text_main"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -220,7 +220,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 3. 指令模式选择 -->
+            <!-- 3. 模拟按键类型选择 -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -240,7 +240,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/section_mode_title"
+                        android:text="按钮触发的信号类型"
                         android:textColor="@color/text_main"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -256,63 +256,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            android:text="@string/mode_keyevent"
+                            android:text="外接物理键盘方向键 (KEYCODE_DPAD_UP / DOWN)"
                             android:textColor="@color/text_main" />
 
                         <RadioButton
                             android:id="@+id/rb_mode_mouse"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/mode_mouse_roll"
-                            android:textColor="@color/text_main" />
-
-                        <RadioButton
-                            android:id="@+id/rb_mode_swipe"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/mode_swipe"
+                            android:text="外接鼠标滚轮 (input roll 0 -1 / 0 1)"
                             android:textColor="@color/text_main" />
                     </RadioGroup>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginVertical="8dp"
-                        android:background="@color/divider" />
-
-                    <!-- 自动翻页间隔设置 -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/auto_scroll_interval"
-                            android:textColor="@color/text_main"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/tv_interval_val"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="10 秒"
-                            android:textColor="@color/primary"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <SeekBar
-                        android:id="@+id/sb_interval"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:max="30"
-                        android:min="3"
-                        android:progress="10" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -337,7 +290,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/guide_title"
+                        android:text="使用说明"
                         android:textColor="@color/primary_dark"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -347,7 +300,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:lineSpacingExtra="4dp"
-                        android:text="@string/guide_step1"
+                        android:text="1. 打开系统【设置 -> 开发者选项 -> 无线调试】；"
                         android:textColor="@color/text_main"
                         android:textSize="13sp" />
 
@@ -356,7 +309,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:lineSpacingExtra="4dp"
-                        android:text="@string/guide_step2"
+                        android:text="2. 查看页面中“IP 地址和端口”（如 192.168.1.5:38421，将冒号后的 5 位端口填入上方点击连接）；"
                         android:textColor="@color/text_main"
                         android:textSize="13sp" />
 
@@ -365,19 +318,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:lineSpacingExtra="4dp"
-                        android:text="@string/guide_step3"
+                        android:text="3. 连接成功后打开悬浮窗，屏幕上会出现【⬆】和【⬇】悬浮按钮，点一下就触发一次按键或滚轮！"
                         android:textColor="@color/text_main"
                         android:textSize="13sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:lineSpacingExtra="4dp"
-                        android:text="@string/guide_tip"
-                        android:textColor="@color/primary_dark"
-                        android:textStyle="bold"
-                        android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

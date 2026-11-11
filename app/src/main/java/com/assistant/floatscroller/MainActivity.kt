@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -19,10 +18,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sp: SharedPreferences
 
     companion object {
-        private const val SP_NAME = "float_local_adb_config"
+        private const val SP_NAME = "float_controller_config"
         private const val KEY_PORT = "key_port"
         private const val KEY_MODE = "key_command_mode"
-        private const val KEY_INTERVAL = "key_interval"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 val inputStr = binding.etPort.text?.toString()?.trim() ?: ""
                 if (inputStr.isEmpty()) {
-                    Toast.makeText(this, "请输入无线调试端口号 (如 38421)", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "请输入无线调试端口 (如 38421)", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
                 sp.edit().putString(KEY_PORT, inputStr).apply()
@@ -76,31 +74,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // 4. 指令模式切换
+        // 4. 指令模式切换 (键盘方向键 vs 鼠标滚轮)
         binding.rgCommandMode.setOnCheckedChangeListener { _, checkedId ->
-            val mode = when (checkedId) {
-                R.id.rb_mode_keyevent -> LocalAdbManager.MODE_KEYEVENT
-                R.id.rb_mode_mouse -> LocalAdbManager.MODE_MOUSE
-                R.id.rb_mode_swipe -> LocalAdbManager.MODE_SWIPE
-                else -> LocalAdbManager.MODE_KEYEVENT
+            val mode = if (checkedId == R.id.rb_mode_mouse) {
+                LocalAdbManager.MODE_MOUSE
+            } else {
+                LocalAdbManager.MODE_KEYEVENT
             }
             sp.edit().putInt(KEY_MODE, mode).apply()
             LocalAdbManager.currentMode = mode
         }
-
-        // 5. 自动翻页时间滑动条
-        binding.sbInterval.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val sec = if (progress < 3) 3 else progress
-                binding.tvIntervalVal.text = "${sec} 秒"
-                if (fromUser) {
-                    sp.edit().putInt(KEY_INTERVAL, sec).apply()
-                    LocalAdbManager.intervalSeconds = sec
-                }
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
     }
 
     private fun setupAdbListener() {
@@ -150,17 +133,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         val savedMode = sp.getInt(KEY_MODE, LocalAdbManager.MODE_KEYEVENT)
-        when (savedMode) {
-            LocalAdbManager.MODE_KEYEVENT -> binding.rbModeKeyevent.isChecked = true
-            LocalAdbManager.MODE_MOUSE -> binding.rbModeMouse.isChecked = true
-            LocalAdbManager.MODE_SWIPE -> binding.rbModeSwipe.isChecked = true
+        if (savedMode == LocalAdbManager.MODE_MOUSE) {
+            binding.rbModeMouse.isChecked = true
+        } else {
+            binding.rbModeKeyevent.isChecked = true
         }
         LocalAdbManager.currentMode = savedMode
-
-        val savedInterval = sp.getInt(KEY_INTERVAL, 10)
-        binding.sbInterval.progress = savedInterval
-        binding.tvIntervalVal.text = "${savedInterval} 秒"
-        LocalAdbManager.intervalSeconds = savedInterval
     }
 
     private fun startFloatingService() {
@@ -172,13 +150,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (!LocalAdbManager.isConnected) {
-            Toast.makeText(this, "提示：本地 ADB 尚未连接，请先输入端口点击【连接】", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "提示：本地无线调试尚未连接，点击悬浮按钮可能无法生效", Toast.LENGTH_LONG).show()
         }
 
         val intent = Intent(this, FloatingWindowService::class.java)
         startService(intent)
         binding.tvFloatingStatus.text = getString(R.string.tv_floating_status_running)
-        Toast.makeText(this, "悬浮窗已开启！", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "悬浮按钮已开启，点击【⬆】或【⬇】即可触发按键！", Toast.LENGTH_SHORT).show()
     }
 
     private fun stopFloatingService() {

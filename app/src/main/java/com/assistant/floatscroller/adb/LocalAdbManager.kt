@@ -12,37 +12,22 @@ import java.util.concurrent.Executors
 object LocalAdbManager {
     private const val TAG = "LocalAdbManager"
 
-    const val MODE_KEYEVENT = 0    // 物理键盘方向键
-    const val MODE_MOUSE = 1       // 鼠标滚轮指令
-    const val MODE_SWIPE = 2       // 硬件级原生滑动
+    const val MODE_KEYEVENT = 0    // 物理键盘方向键 (KEYCODE_DPAD_UP / DOWN)
+    const val MODE_MOUSE = 1       // 鼠标滚轮指令 (input roll 0 1 / -1)
 
     var currentMode: Int = MODE_KEYEVENT
-    var intervalSeconds: Int = 10
-    var isAutoScrolling: Boolean = false
-        private set
-
-    var onAutoScrollStateChangeListener: ((Boolean) -> Unit)? = null
     var onConnectionStateListener: ((Boolean, String?) -> Unit)? = null
 
     private var currentConnection: AdbConnection? = null
     private val executor = Executors.newSingleThreadExecutor()
     private val mainHandler = Handler(Looper.getMainLooper())
 
-    private val autoScrollRunnable = object : Runnable {
-        override fun run() {
-            if (isAutoScrolling) {
-                scrollDown(null)
-                mainHandler.postDelayed(this, intervalSeconds * 1000L)
-            }
-        }
-    }
-
     val isConnected: Boolean
         get() = currentConnection?.isConnected == true
 
     /**
      * 连接本地无线调试
-     * 支持传入单纯端口号 (如 "38421") 或带 IP 的完整地址 (如 "192.168.1.5:38421")
+     * 支持传入端口 (如 "38421") 或带 IP 的完整地址 (如 "192.168.1.5:38421")
      */
     fun connect(context: Context, inputTarget: String) {
         executor.execute {
@@ -58,7 +43,7 @@ object LocalAdbManager {
                     return@execute
                 }
 
-                // 构建候选 IP 列表 (优先用户指定的 IP，其次 127.0.0.1，再次手机本地实际分配的 WiFi IP)
+                // 候选 IP 列表 (优先用户输入的 IP，其次 127.0.0.1，再次手机分配的局域网 WiFi IP)
                 val candidateHosts = mutableListOf<String>()
                 if (!targetHost.isNullOrBlank()) {
                     candidateHosts.add(targetHost)
@@ -77,12 +62,12 @@ object LocalAdbManager {
 
                 for (host in hostsToTry) {
                     try {
-                        Log.d(TAG, "正在尝试连接: $host:$targetPort")
+                        Log.d(TAG, "尝试连接: $host:$targetPort")
                         val conn = AdbConnection(host = host, port = targetPort, keyPair = keyPair)
                         conn.connect()
                         if (conn.isConnected) {
                             connectedConn = conn
-                            Log.d(TAG, "成功建立连接: $host:$targetPort")
+                            Log.d(TAG, "连接成功: $host:$targetPort")
                             break
                         }
                     } catch (e: Exception) {
@@ -115,9 +100,6 @@ object LocalAdbManager {
         }
     }
 
-    /**
-     * 解析用户输入（支持 "38421" 或 "192.168.1.5:38421"）
-     */
     private fun parseHostAndPort(raw: String): Pair<String?, Int> {
         val trimmed = raw.trim()
         if (trimmed.contains(":")) {
@@ -130,9 +112,6 @@ object LocalAdbManager {
         return Pair(null, port)
     }
 
-    /**
-     * 获取设备的所有非回环 IPv4 地址 (如手机当前连接的 WiFi IP)
-     */
     private fun getLocalIpAddresses(): List<String> {
         val list = mutableListOf<String>()
         try {
@@ -151,80 +130,38 @@ object LocalAdbManager {
         return list
     }
 
-    /**
-     * 断开连接
-     */
     fun disconnect() {
-        stopAutoScroll()
         currentConnection?.close()
         currentConnection = null
         onConnectionStateListener?.invoke(false, "已断开连接")
     }
 
     /**
-     * 触发向上翻页（按键上 / 鼠标滚轮上）
+     * 单次触发：上键 / 鼠标滚轮向上
      */
     fun scrollUp(context: Context?) {
         val command = when (currentMode) {
-            MODE_KEYEVENT -> "input keyevent 19" // KEYCODE_DPAD_UP
+            MODE_KEYEVENT -> "input keyevent 19" // 物理方向上键 KEYCODE_DPAD_UP
             MODE_MOUSE -> "input roll 0 -1"      // 鼠标滚轮向上
-            MODE_SWIPE -> {
-                val metrics = context?.resources?.displayMetrics
-                val w = metrics?.widthPixels ?: 1080
-                val h = metrics?.heightPixels ?: 2400
-                "input swipe ${w / 2} ${h / 4} ${w / 2} ${h * 3 / 4} 150"
-            }
             else -> "input keyevent 19"
         }
         executeShell(command, context)
     }
 
     /**
-     * 触发向下翻页（按键下 / 鼠标滚轮下）
+     * 单次触发：下键 / 鼠标滚轮向下
      */
     fun scrollDown(context: Context?) {
         val command = when (currentMode) {
-            MODE_KEYEVENT -> "input keyevent 20" // KEYCODE_DPAD_DOWN
+            MODE_KEYEVENT -> "input keyevent 20" // 物理方向下键 KEYCODE_DPAD_DOWN
             MODE_MOUSE -> "input roll 0 1"       // 鼠标滚轮向下
-            MODE_SWIPE -> {
-                val metrics = context?.resources?.displayMetrics
-                val w = metrics?.widthPixels ?: 1080
-                val h = metrics?.heightPixels ?: 2400
-                "input swipe ${w / 2} ${h * 3 / 4} ${w / 2} ${h / 4} 150"
-            }
             else -> "input keyevent 20"
         }
         executeShell(command, context)
     }
 
     /**
-     * 切换自动翻页
-     */
-    fun toggleAutoScroll(context: Context?): Boolean {
-        if (isAutoScrolling) {
-            stopAutoScroll()
-        } else {
-            startAutoScroll(context)
-        }
-        return isAutoScrolling
-    }
-
-    fun startAutoScroll(context: Context?) {
-        isAutoScrolling = true
-        onAutoScrollStateChangeListener?.invoke(true)
-        mainHandler.removeCallbacks(autoScrollRunnable)
-        scrollDown(context)
-        mainHandler.postDelayed(autoScrollRunnable, intervalSeconds * 1000L)
-    }
-
-    fun stopAutoScroll() {
-        isAutoScrolling = false
-        onAutoScrollStateChangeListener?.invoke(false)
-        mainHandler.removeCallbacks(autoScrollRunnable)
-    }
-
-    /**
-     * 异步执行 Shell 命令
+     * 异步向系统发送 Shell 命令
      */
     fun executeShell(command: String, context: Context?) {
         executor.execute {
@@ -232,14 +169,14 @@ object LocalAdbManager {
                 val conn = currentConnection
                 if (conn != null && conn.isConnected) {
                     conn.exec(command)
-                    Log.d(TAG, "本地 ADB 指令执行成功: $command")
+                    Log.d(TAG, "发送指令成功: $command")
                 } else {
                     val process = Runtime.getRuntime().exec(arrayOf("su", "-c", command))
                     process.waitFor()
                     Log.d(TAG, "Root 指令执行成功: $command")
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "指令执行失败: $command", e)
+                Log.e(TAG, "指令发送失败: $command", e)
                 context?.let { ctx ->
                     mainHandler.post {
                         Toast.makeText(ctx, "未连接到无线调试，请先在主界面点击【连接】", Toast.LENGTH_SHORT).show()

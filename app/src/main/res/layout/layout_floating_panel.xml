@@ -3,23 +3,23 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <!-- 1. 折叠形态：迷你悬浮小气泡 -->
+    <!-- 1. 折叠形态：迷你悬浮小圆球（贴边不挡屏幕） -->
     <FrameLayout
         android:id="@+id/layout_bubble"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:background="@drawable/bg_mini_bubble"
         android:elevation="6dp"
         android:visibility="gone">
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_touch" />
     </FrameLayout>
 
-    <!-- 2. 展开形态：全功能悬浮控制胶囊面板 -->
+    <!-- 2. 展开形态：纯粹的手动按键控制条 -->
     <LinearLayout
         android:id="@+id/layout_panel"
         android:layout_width="wrap_content"
@@ -30,50 +30,40 @@
         android:orientation="vertical"
         android:padding="8dp">
 
-        <!-- 折叠为小球按钮 -->
+        <!-- 折叠为小球 -->
         <ImageButton
             android:id="@+id/btn_collapse"
             android:layout_width="36dp"
-            android:layout_height="24dp"
+            android:layout_height="22dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="折叠"
             android:src="@drawable/ic_collapse" />
 
-        <!-- 上翻：物理上键 / 鼠标滚轮上 -->
+        <!-- 点击单次触发：上键 / 滚轮上 -->
         <ImageButton
             android:id="@+id/btn_scroll_up"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
             android:layout_marginTop="6dp"
             android:background="@drawable/bg_circle_button"
-            android:contentDescription="上翻"
+            android:contentDescription="按键上"
             android:src="@drawable/ic_arrow_up" />
 
-        <!-- 下翻：物理下键 / 鼠标滚轮下 -->
+        <!-- 点击单次触发：下键 / 滚轮下 -->
         <ImageButton
             android:id="@+id/btn_scroll_down"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/bg_circle_button"
-            android:contentDescription="下翻"
+            android:contentDescription="按键下"
             android:src="@drawable/ic_arrow_down" />
-
-        <!-- 自动连刷/翻页开关（播放/暂停） -->
-        <ImageButton
-            android:id="@+id/btn_auto_scroll"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_circle_button"
-            android:contentDescription="自动翻页"
-            android:src="@drawable/ic_play" />
 
         <!-- 关闭悬浮窗 -->
         <ImageButton
             android:id="@+id/btn_close_panel"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginTop="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="关闭"

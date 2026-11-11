@@ -31,7 +31,6 @@ class FloatingWindowService : Service() {
 
     private lateinit var layoutBubble: FrameLayout
     private lateinit var layoutPanel: LinearLayout
-    private lateinit var btnAutoScroll: ImageButton
 
     override fun onCreate() {
         super.onCreate()
@@ -68,7 +67,6 @@ class FloatingWindowService : Service() {
 
         layoutBubble = floatingView.findViewById(R.id.layout_bubble)
         layoutPanel = floatingView.findViewById(R.id.layout_panel)
-        btnAutoScroll = floatingView.findViewById(R.id.btn_auto_scroll)
 
         windowManager.addView(floatingView, params)
     }
@@ -79,54 +77,38 @@ class FloatingWindowService : Service() {
         val btnScrollDown = floatingView.findViewById<ImageButton>(R.id.btn_scroll_down)
         val btnClose = floatingView.findViewById<ImageButton>(R.id.btn_close_panel)
 
-        // 1. 模拟上翻（物理键盘方向上键 / 鼠标滚轮上）
+        // 1. 点一下触发：上键 / 滚轮上
         btnScrollUp.setOnClickListener {
             vibrateFeedback()
             LocalAdbManager.scrollUp(this)
         }
 
-        // 2. 模拟下翻（物理键盘方向下键 / 鼠标滚轮下）
+        // 2. 点一下触发：下键 / 滚轮下
         btnScrollDown.setOnClickListener {
             vibrateFeedback()
             LocalAdbManager.scrollDown(this)
         }
 
-        // 3. 自动翻页切换
-        btnAutoScroll.setOnClickListener {
-            vibrateFeedback()
-            val isScrolling = LocalAdbManager.toggleAutoScroll(this)
-            updateAutoScrollIcon(isScrolling)
-        }
-
-        // 4. 收起为迷你气泡
+        // 3. 收起为迷你气泡
         btnCollapse.setOnClickListener {
             vibrateFeedback()
             collapseToBubble()
         }
 
-        // 5. 点击气泡展开面板
+        // 4. 点击小气泡展开面板
         layoutBubble.setOnClickListener {
             vibrateFeedback()
             expandToPanel()
         }
 
-        // 6. 关闭悬浮窗
+        // 5. 关闭悬浮窗
         btnClose.setOnClickListener {
             stopSelf()
         }
 
-        // 监听自动翻页状态变化
-        LocalAdbManager.onAutoScrollStateChangeListener = { isScrolling ->
-            updateAutoScrollIcon(isScrolling)
-        }
-
-        // 拖拽与松手贴边
+        // 拖拽与松手自动贴边
         enableDrag(layoutPanel)
         enableDrag(layoutBubble)
-    }
-
-    private fun updateAutoScrollIcon(isScrolling: Boolean) {
-        btnAutoScroll.setImageResource(if (isScrolling) R.drawable.ic_pause else R.drawable.ic_play)
     }
 
     private fun collapseToBubble() {
@@ -197,7 +179,6 @@ class FloatingWindowService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         isRunning = false
-        LocalAdbManager.stopAutoScroll()
         if (::floatingView.isInitialized) {
             windowManager.removeView(floatingView)
         }
