@@ -30,7 +30,7 @@
         android:orientation="vertical"
         android:padding="8dp">
 
-        <!-- 顶部拖拽手柄 & 折叠按钮 -->
+        <!-- 折叠为小球按钮 -->
         <ImageButton
             android:id="@+id/btn_collapse"
             android:layout_width="36dp"
@@ -39,7 +39,7 @@
             android:contentDescription="折叠"
             android:src="@drawable/ic_collapse" />
 
-        <!-- 上翻页 / 模拟键盘上键 / 滚轮上 -->
+        <!-- 上翻：物理上键 / 鼠标滚轮上 -->
         <ImageButton
             android:id="@+id/btn_scroll_up"
             android:layout_width="44dp"
@@ -49,7 +49,7 @@
             android:contentDescription="上翻"
             android:src="@drawable/ic_arrow_up" />
 
-        <!-- 下翻页 / 模拟键盘下键 / 滚轮下 -->
+        <!-- 下翻：物理下键 / 鼠标滚轮下 -->
         <ImageButton
             android:id="@+id/btn_scroll_down"
             android:layout_width="44dp"
@@ -59,7 +59,7 @@
             android:contentDescription="下翻"
             android:src="@drawable/ic_arrow_down" />
 
-        <!-- 自动翻页开关（播放/暂停） -->
+        <!-- 自动连刷/翻页开关（播放/暂停） -->
         <ImageButton
             android:id="@+id/btn_auto_scroll"
             android:layout_width="44dp"

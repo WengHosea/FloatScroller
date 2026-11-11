@@ -13,8 +13,8 @@ import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import android.widget.Toast
 import com.assistant.floatscroller.R
+import com.assistant.floatscroller.adb.LocalAdbManager
 import kotlin.math.abs
 
 class FloatingWindowService : Service() {
@@ -79,41 +79,26 @@ class FloatingWindowService : Service() {
         val btnScrollDown = floatingView.findViewById<ImageButton>(R.id.btn_scroll_down)
         val btnClose = floatingView.findViewById<ImageButton>(R.id.btn_close_panel)
 
-        // 1. 模拟上翻（按键上/滚轮上）
+        // 1. 模拟上翻（物理键盘方向上键 / 鼠标滚轮上）
         btnScrollUp.setOnClickListener {
             vibrateFeedback()
-            val service = AutoScrollAccessibilityService.instance
-            if (service != null) {
-                service.scrollUp()
-            } else {
-                Toast.makeText(this, "请先在主界面开启【无障碍辅助服务】", Toast.LENGTH_SHORT).show()
-            }
+            LocalAdbManager.scrollUp(this)
         }
 
-        // 2. 模拟下翻（按键下/滚轮下）
+        // 2. 模拟下翻（物理键盘方向下键 / 鼠标滚轮下）
         btnScrollDown.setOnClickListener {
             vibrateFeedback()
-            val service = AutoScrollAccessibilityService.instance
-            if (service != null) {
-                service.scrollDown()
-            } else {
-                Toast.makeText(this, "请先在主界面开启【无障碍辅助服务】", Toast.LENGTH_SHORT).show()
-            }
+            LocalAdbManager.scrollDown(this)
         }
 
-        // 3. 开启/暂停自动翻页
+        // 3. 自动翻页切换
         btnAutoScroll.setOnClickListener {
             vibrateFeedback()
-            val service = AutoScrollAccessibilityService.instance
-            if (service != null) {
-                val isScrolling = service.toggleAutoScroll()
-                updateAutoScrollIcon(isScrolling)
-            } else {
-                Toast.makeText(this, "请先在主界面开启【无障碍辅助服务】", Toast.LENGTH_SHORT).show()
-            }
+            val isScrolling = LocalAdbManager.toggleAutoScroll(this)
+            updateAutoScrollIcon(isScrolling)
         }
 
-        // 4. 收起折叠为小气泡
+        // 4. 收起为迷你气泡
         btnCollapse.setOnClickListener {
             vibrateFeedback()
             collapseToBubble()
@@ -131,11 +116,11 @@ class FloatingWindowService : Service() {
         }
 
         // 监听自动翻页状态变化
-        AutoScrollAccessibilityService.instance?.onAutoScrollStateChangeListener = { isAutoScrolling ->
-            updateAutoScrollIcon(isAutoScrolling)
+        LocalAdbManager.onAutoScrollStateChangeListener = { isScrolling ->
+            updateAutoScrollIcon(isScrolling)
         }
 
-        // 支持拖拽与边缘吸附
+        // 拖拽与松手贴边
         enableDrag(layoutPanel)
         enableDrag(layoutBubble)
     }
@@ -154,9 +139,6 @@ class FloatingWindowService : Service() {
         layoutPanel.visibility = View.VISIBLE
     }
 
-    /**
-     * 触摸拖拽与松手自动贴边
-     */
     @SuppressLint("ClickableViewAccessibility")
     private fun enableDrag(view: View) {
         view.setOnTouchListener(object : View.OnTouchListener {
@@ -174,7 +156,7 @@ class FloatingWindowService : Service() {
                         initialTouchX = event.rawX
                         initialTouchY = event.rawY
                         isMoving = false
-                        return false // 返回 false 允许子 View 响应正常点击
+                        return false
                     }
                     MotionEvent.ACTION_MOVE -> {
                         val dx = (event.rawX - initialTouchX).toInt()
@@ -189,7 +171,6 @@ class FloatingWindowService : Service() {
                     }
                     MotionEvent.ACTION_UP -> {
                         if (isMoving) {
-                            // 拖动结束，自动靠拢屏幕左侧或右侧
                             val screenWidth = resources.displayMetrics.widthPixels
                             params.x = if (params.x + view.width / 2 < screenWidth / 2) 20 else screenWidth - view.width - 20
                             windowManager.updateViewLayout(floatingView, params)
@@ -202,9 +183,6 @@ class FloatingWindowService : Service() {
         })
     }
 
-    /**
-     * 触觉震动反馈
-     */
     private fun vibrateFeedback() {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -219,7 +197,7 @@ class FloatingWindowService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         isRunning = false
-        AutoScrollAccessibilityService.instance?.stopAutoScroll()
+        LocalAdbManager.stopAutoScroll()
         if (::floatingView.isInitialized) {
             windowManager.removeView(floatingView)
         }

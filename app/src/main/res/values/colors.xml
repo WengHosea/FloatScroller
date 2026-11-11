@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#2563EB</color>
-    <color name="primary_dark">#1D4ED8</color>
-    <color name="primary_container">#DBEAFE</color>
+    <color name="primary">#0284C7</color>
+    <color name="primary_dark">#0369A1</color>
+    <color name="primary_container">#E0F2FE</color>
     <color name="on_primary">#FFFFFF</color>
 
     <color name="secondary">#059669</color>
     <color name="secondary_container">#D1FAE5</color>
 
-    <color name="accent_red">#DC2626</color>
-    <color name="accent_yellow">#D97706</color>
+    <color name="accent_warn">#EA580C</color>
+    <color name="accent_success">#16A34A</color>
 
     <color name="bg_screen">#F8FAFC</color>
     <color name="card_bg">#FFFFFF</color>
@@ -17,9 +17,8 @@
     <color name="text_sub">#64748B</color>
     <color name="divider">#E2E8F0</color>
 
-    <!-- 悬浮窗半透明配色 -->
-    <color name="floating_bg">#D91E293B</color>
-    <color name="floating_btn_bg">#475569</color>
-    <color name="floating_btn_active">#3B82F6</color>
+    <!-- 悬浮窗颜色 -->
+    <color name="floating_bg">#EB1E293B</color>
+    <color name="floating_btn_bg">#334155</color>
     <color name="floating_icon_color">#F8FAFC</color>
 </resources>

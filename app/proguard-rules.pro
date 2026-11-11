@@ -1,1 +1,3 @@
-# Add project specific ProGuard rules here.
+# Shizuku
+-keep class * extends dev.rikka.shizuku.ShizukuBinderWrapper { *; }
+-keepclassmembers class * extends dev.rikka.shizuku.ShizukuBinderWrapper { *; }

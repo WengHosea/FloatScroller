@@ -1,26 +1,40 @@
 <resources>
-    <string name="app_name">随心滚助手</string>
-    <string name="accessibility_service_description">随心滚助手无障碍服务：仅用于在用户点击悬浮窗按钮时模拟向上/向下翻页手势，实现短视频和电子书的便捷翻页与自动滚屏，绝不会收集任何个人隐私数据。</string>
+    <string name="app_name">随心滚 (独立极速版)</string>
 
-    <!-- 权限提示 -->
-    <string name="permission_title">必备权限授权</string>
-    <string name="permission_overlay_title">1. 悬浮窗显示权限</string>
-    <string name="permission_overlay_desc">用于在所有应用最上层展示悬浮翻页控制球</string>
-    <string name="permission_accessibility_title">2. 无障碍辅助服务</string>
-    <string name="permission_accessibility_desc">用于免 Root 模拟屏幕滑动与翻页动作</string>
+    <!-- 运行环境 -->
+    <string name="section_env_title">运行环境与授权 (单 App 全包)</string>
+    <string name="item_overlay_title">1. 悬浮窗显示权限</string>
+    <string name="item_overlay_desc">用于在所有应用最上层展示悬浮翻页控制球</string>
+    <string name="item_adb_title">2. 本地无线调试连接 (内置 ADB)</string>
+    <string name="item_adb_desc">无需 Shizuku、免电脑、免 Root 发送真实键盘/鼠标信号</string>
+
     <string name="btn_grant">前往授权</string>
     <string name="btn_granted">已授权 ✓</string>
+    <string name="btn_connect">连接</string>
+    <string name="btn_disconnect">断开</string>
 
-    <!-- 控制面板 -->
-    <string name="control_title">悬浮窗控制</string>
-    <string name="btn_start_floating">开启悬浮窗</string>
-    <string name="btn_stop_floating">关闭悬浮窗</string>
+    <string name="port_hint">输入 5 位无线调试端口 (如 38421)</string>
+    <string name="adb_status_disconnected">本地 ADB 未连接 (请填入端口点击连接)</string>
+    <string name="adb_status_connected">本地 ADB 已连接 ✓ (物理按键已就绪)</string>
 
-    <!-- 配置面板 -->
-    <string name="settings_title">翻页模式与速度设置</string>
-    <string name="mode_video">短视频模式（大距离快速划屏）</string>
-    <string name="mode_book">电子书模式（中短距离平滑翻页）</string>
+    <!-- 悬浮窗控制 -->
+    <string name="section_control_title">悬浮窗控制</string>
+    <string name="tv_floating_status_running">悬浮窗正在前台运行</string>
+    <string name="tv_floating_status_stopped">悬浮窗已关闭</string>
+
+    <!-- 模拟方式选择 -->
+    <string name="section_mode_title">模拟指令类型</string>
+    <string name="mode_keyevent">物理键盘方向键 (KEYCODE_DPAD_UP / DOWN)</string>
+    <string name="mode_mouse_roll">鼠标滚轮指令 (input roll 0 1 / -1)</string>
+    <string name="mode_swipe">极速硬件触摸滑动 (input swipe)</string>
+
+    <!-- 自动滚屏 -->
     <string name="auto_scroll_interval">自动翻页时间间隔 (秒)</string>
-    <string name="guide_title">使用指南</string>
-    <string name="guide_content">1. 开启上方两个必要权限；\n2. 点击“开启悬浮窗”，屏幕边缘会出现悬浮胶囊；\n3. 悬浮胶囊可随意拖动靠边，点击【⬆】上翻，【⬇】下翻；\n4. 点击【▶】开启自动定时翻页，点击【⏸】暂停自动翻页。</string>
+
+    <!-- 使用教程 -->
+    <string name="guide_title">3 步开启本地无线调试 (无需安装任何其他软件)</string>
+    <string name="guide_step1">1. 打开手机系统【设置 -> 开发者选项 -> 开启无线调试】；</string>
+    <string name="guide_step2">2. 查看页面中“IP 地址和端口”（例如 192.168.1.5:38421，记录冒号后面的 5 位端口号）；</string>
+    <string name="guide_step3">3. 在上方输入该端口号并点击【连接】；屏幕若弹出“允许此设备进行调试吗”，勾选【始终允许】点击确定即可！</string>
+    <string name="guide_tip">💡 提示：连接成功后即可打开悬浮窗，在抖音、快手、小说等任意应用中畅享键盘/滚轮级翻页！</string>
 </resources>

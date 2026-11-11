@@ -29,20 +29,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="免 Root 悬浮球 · 短视频刷屏 / 电子书小说智能翻页"
+                android:text="单 App 全包 · 内置 Local ADB 引擎 · 彻底告别第三方软件与无障碍"
                 android:textColor="@color/text_sub"
-                android:textSize="14sp" />
+                android:textSize="13sp" />
 
-            <!-- 1. 权限卡片 -->
+            <!-- 1. 环境与连接卡片 -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                app:cardBackgroundColor="@color/card_bg"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/card_bg"
-                app:strokeWidth="1dp"
-                app:strokeColor="@color/divider">
+                app:strokeColor="@color/divider"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/permission_title"
+                        android:text="@string/section_env_title"
                         android:textColor="@color/text_main"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -75,15 +75,15 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/permission_overlay_title"
+                                android:text="@string/item_overlay_title"
                                 android:textColor="@color/text_main"
-                                android:textStyle="bold"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/permission_overlay_desc"
+                                android:text="@string/item_overlay_desc"
                                 android:textColor="@color/text_sub"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -102,56 +102,85 @@
                         android:layout_marginVertical="10dp"
                         android:background="@color/divider" />
 
-                    <!-- 无障碍权限行 -->
+                    <!-- 内置无线调试 ADB 行 -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/item_adb_title"
+                        android:textColor="@color/text_main"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/item_adb_desc"
+                        android:textColor="@color/text_sub"
+                        android:textSize="12sp" />
+
+                    <!-- 端口输入与连接操作 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <LinearLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:layout_marginEnd="10dp"
+                            app:boxCornerRadiusBottomEnd="12dp"
+                            app:boxCornerRadiusBottomStart="12dp"
+                            app:boxCornerRadiusTopEnd="12dp"
+                            app:boxCornerRadiusTopStart="12dp"
+                            app:boxStrokeColor="@color/primary"
+                            app:hintEnabled="false">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/et_port"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/permission_accessibility_title"
-                                android:textColor="@color/text_main"
-                                android:textStyle="bold"
+                                android:hint="@string/port_hint"
+                                android:inputType="number"
+                                android:maxLength="5"
+                                android:paddingVertical="12dp"
                                 android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/permission_accessibility_desc"
-                                android:textColor="@color/text_sub"
-                                android:textSize="12sp" />
-                        </LinearLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_grant_accessibility"
+                            android:id="@+id/btn_connect_adb"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/btn_grant"
+                            android:text="@string/btn_connect"
                             app:cornerRadius="20dp" />
                     </LinearLayout>
+
+                    <!-- 连接状态文字 -->
+                    <TextView
+                        android:id="@+id/tv_adb_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/adb_status_disconnected"
+                        android:textColor="@color/accent_warn"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 2. 开关卡片 -->
+            <!-- 2. 悬浮窗控制卡片 -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/card_bg"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/card_bg"
-                app:strokeWidth="1dp"
-                app:strokeColor="@color/divider">
+                app:strokeColor="@color/divider"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -169,7 +198,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/control_title"
+                            android:text="@string/section_control_title"
                             android:textColor="@color/text_main"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -179,7 +208,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="悬浮窗未运行"
+                            android:text="@string/tv_floating_status_stopped"
                             android:textColor="@color/text_sub"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -191,16 +220,16 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 3. 设置卡片 -->
+            <!-- 3. 指令模式选择 -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/card_bg"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/card_bg"
-                app:strokeWidth="1dp"
-                app:strokeColor="@color/divider">
+                app:strokeColor="@color/divider"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -211,31 +240,37 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_title"
+                        android:text="@string/section_mode_title"
                         android:textColor="@color/text_main"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                    <!-- 单选组：短视频模式 / 电子书模式 -->
                     <RadioGroup
-                        android:id="@+id/rg_mode"
+                        android:id="@+id/rg_command_mode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp">
 
                         <RadioButton
-                            android:id="@+id/rb_mode_video"
+                            android:id="@+id/rb_mode_keyevent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            android:text="@string/mode_video"
+                            android:text="@string/mode_keyevent"
                             android:textColor="@color/text_main" />
 
                         <RadioButton
-                            android:id="@+id/rb_mode_book"
+                            android:id="@+id/rb_mode_mouse"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/mode_book"
+                            android:text="@string/mode_mouse_roll"
+                            android:textColor="@color/text_main" />
+
+                        <RadioButton
+                            android:id="@+id/rb_mode_swipe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mode_swipe"
                             android:textColor="@color/text_main" />
                     </RadioGroup>
 
@@ -266,8 +301,8 @@
                             android:layout_height="wrap_content"
                             android:text="10 秒"
                             android:textColor="@color/primary"
-                            android:textStyle="bold"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <SeekBar
@@ -282,15 +317,15 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 4. 指引卡片 -->
+            <!-- 4. 指南卡片 -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="@color/primary_container"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/primary_container"
                 app:strokeWidth="0dp">
 
                 <LinearLayout
@@ -310,11 +345,39 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
+                        android:layout_marginTop="8dp"
                         android:lineSpacingExtra="4dp"
-                        android:text="@string/guide_content"
+                        android:text="@string/guide_step1"
                         android:textColor="@color/text_main"
                         android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text="@string/guide_step2"
+                        android:textColor="@color/text_main"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text="@string/guide_step3"
+                        android:textColor="@color/text_main"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text="@string/guide_tip"
+                        android:textColor="@color/primary_dark"
+                        android:textStyle="bold"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
