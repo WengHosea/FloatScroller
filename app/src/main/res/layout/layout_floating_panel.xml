@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <!-- 1. 折叠形态：迷你悬浮小气泡 -->
+    <FrameLayout
+        android:id="@+id/layout_bubble"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_mini_bubble"
+        android:elevation="6dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_touch" />
+    </FrameLayout>
+
+    <!-- 2. 展开形态：全功能悬浮控制胶囊面板 -->
+    <LinearLayout
+        android:id="@+id/layout_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_floating_panel"
+        android:elevation="8dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- 顶部拖拽手柄 & 折叠按钮 -->
+        <ImageButton
+            android:id="@+id/btn_collapse"
+            android:layout_width="36dp"
+            android:layout_height="24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="折叠"
+            android:src="@drawable/ic_collapse" />
+
+        <!-- 上翻页 / 模拟键盘上键 / 滚轮上 -->
+        <ImageButton
+            android:id="@+id/btn_scroll_up"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_circle_button"
+            android:contentDescription="上翻"
+            android:src="@drawable/ic_arrow_up" />
+
+        <!-- 下翻页 / 模拟键盘下键 / 滚轮下 -->
+        <ImageButton
+            android:id="@+id/btn_scroll_down"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_circle_button"
+            android:contentDescription="下翻"
+            android:src="@drawable/ic_arrow_down" />
+
+        <!-- 自动翻页开关（播放/暂停） -->
+        <ImageButton
+            android:id="@+id/btn_auto_scroll"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_circle_button"
+            android:contentDescription="自动翻页"
+            android:src="@drawable/ic_play" />
+
+        <!-- 关闭悬浮窗 -->
+        <ImageButton
+            android:id="@+id/btn_close_panel"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="关闭"
+            android:src="@drawable/ic_close" />
+
+    </LinearLayout>
+
+</FrameLayout>

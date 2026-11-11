@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">随心滚助手</string>
+    <string name="accessibility_service_description">随心滚助手无障碍服务：仅用于在用户点击悬浮窗按钮时模拟向上/向下翻页手势，实现短视频和电子书的便捷翻页与自动滚屏，绝不会收集任何个人隐私数据。</string>
+
+    <!-- 权限提示 -->
+    <string name="permission_title">必备权限授权</string>
+    <string name="permission_overlay_title">1. 悬浮窗显示权限</string>
+    <string name="permission_overlay_desc">用于在所有应用最上层展示悬浮翻页控制球</string>
+    <string name="permission_accessibility_title">2. 无障碍辅助服务</string>
+    <string name="permission_accessibility_desc">用于免 Root 模拟屏幕滑动与翻页动作</string>
+    <string name="btn_grant">前往授权</string>
+    <string name="btn_granted">已授权 ✓</string>
+
+    <!-- 控制面板 -->
+    <string name="control_title">悬浮窗控制</string>
+    <string name="btn_start_floating">开启悬浮窗</string>
+    <string name="btn_stop_floating">关闭悬浮窗</string>
+
+    <!-- 配置面板 -->
+    <string name="settings_title">翻页模式与速度设置</string>
+    <string name="mode_video">短视频模式（大距离快速划屏）</string>
+    <string name="mode_book">电子书模式（中短距离平滑翻页）</string>
+    <string name="auto_scroll_interval">自动翻页时间间隔 (秒)</string>
+    <string name="guide_title">使用指南</string>
+    <string name="guide_content">1. 开启上方两个必要权限；\n2. 点击“开启悬浮窗”，屏幕边缘会出现悬浮胶囊；\n3. 悬浮胶囊可随意拖动靠边，点击【⬆】上翻，【⬇】下翻；\n4. 点击【▶】开启自动定时翻页，点击【⏸】暂停自动翻页。</string>
+</resources>
