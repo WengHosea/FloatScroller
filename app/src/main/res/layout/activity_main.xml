@@ -143,9 +143,9 @@
                                 android:id="@+id/et_port"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/port_hint"
-                                android:inputType="number"
-                                android:maxLength="5"
+                                android:hint="输入端口(如 38421)或整串地址"
+                                android:inputType="text"
+                                android:maxLength="25"
                                 android:paddingVertical="12dp"
                                 android:textSize="14sp" />
                         </com.google.android.material.textfield.TextInputLayout>

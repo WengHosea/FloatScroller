@@ -32,6 +32,7 @@ class AdbConnection(
         val s = Socket()
         s.tcpNoDelay = true
         s.keepAlive = true
+        s.soTimeout = 15000 // 15秒超时，防止等待弹窗时卡死
         s.connect(InetSocketAddress(host, port), CONNECT_TIMEOUT_MS)
 
         val input = s.getInputStream()

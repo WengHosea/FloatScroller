@@ -57,14 +57,13 @@ class MainActivity : AppCompatActivity() {
             if (LocalAdbManager.isConnected) {
                 LocalAdbManager.disconnect()
             } else {
-                val portStr = binding.etPort.text?.toString()?.trim() ?: ""
-                val port = portStr.toIntOrNull()
-                if (port == null || port <= 1024 || port > 65535) {
-                    Toast.makeText(this, "请输入正确的 5 位无线调试端口号", Toast.LENGTH_SHORT).show()
+                val inputStr = binding.etPort.text?.toString()?.trim() ?: ""
+                if (inputStr.isEmpty()) {
+                    Toast.makeText(this, "请输入无线调试端口号 (如 38421)", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                sp.edit().putString(KEY_PORT, portStr).apply()
-                LocalAdbManager.connect(this, port)
+                sp.edit().putString(KEY_PORT, inputStr).apply()
+                LocalAdbManager.connect(this, inputStr)
             }
         }
 
